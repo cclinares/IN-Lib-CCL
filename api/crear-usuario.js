@@ -2,8 +2,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  'https://djftpnxuwujyhxixedwj.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqZnRwbnh1d3VqeWh4aXhlZHdqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzUxMjk2MCwiZXhwIjoyMDU5MDg4OTYwfQ.ta6CZ7Oc23UAR6YM0DxTn6KHNglOD0Y5oZo6SsAuSkE'
+  'https://xvxnqcvviwkqmhtfhfxo.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2eG5xY3Z2aXdrcW1odGZoZnhvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTkzNjM5MSwiZXhwIjoyMDYxNTEyMzkxfQ.L5z2xX8zf_FlrITBUPyNVpocH4cVNVjBceMvrqDJr5Q'
 );
 
 export default async function handler(req, res) {
@@ -19,11 +19,9 @@ export default async function handler(req, res) {
   if (!nombre || !correo || !rol) return res.status(400).json({ error: 'Faltan campos requeridos' });
 
   try {
-    // 1. Crear usuario en Auth
     const { data: user, error: authError } = await supabase.auth.admin.inviteUserByEmail(correo);
     if (authError) throw authError;
 
-    // 2. Insertar en tabla usuarios
     const { error: insertError } = await supabase.from('usuarios').insert({
       id: user.user.id,
       nombre,
